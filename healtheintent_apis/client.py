@@ -30,31 +30,31 @@ class HealthEIntentAPIClient:
         return headers
 
     @staticmethod
-    def _get_new_error_class(http_error):
-        if http_error.status_code in (401, 403):
+    def _get_new_http_error_class(http_error):
+        resp = http_error.response
+        if resp.status_code in (401, 403):
             return errors.HealthEIntentAccessNotPermittedError
-        if http_error.status_code == 400:
+        if resp.status_code == 400:
             return errors.HealthEIntentBadRequestError
-        if http_error.status_code == 404:
+        if resp.status_code == 404:
             return errors.HealthEIntentResourceNotFoundError
-        if http_error.status_code == 409:
+        if resp.status_code == 409:
             return errors.HealthEIntentResourceConflictError
         return errors.HealthEIntentAPIError
 
     @classmethod
-    def _reraise_http_error(cls, http_error, response, traceback):
-        new_class = cls._get_new_error_class(http_error)
-        new_exception = new_class('{}\n\nRequest body:\n{}'.format(http_error, response.content))
+    def _reraise_http_error(cls, http_error, response):
+        new_class = cls._get_new_http_error_class(http_error)
+        new_exception = new_class(response.content)
         new_exception.response = http_error.response
-        raise new_class, new_exception, traceback
+        new_exception.__traceback__ = http_error.__traceback__
+        raise new_exception
 
     def _raise_for_status(self, resp):
         try:
             resp.raise_for_status()
-        except requests.exceptions.HTTPError:
-            import sys
-            klass, error, traceback = sys.exc_info()
-            self._reraise_http_error(error, resp, traceback)
+        except requests.exceptions.HTTPError as e:
+            self._reraise_http_error(e, resp)
         return resp
 
     def get_full_path(self, request_path):
