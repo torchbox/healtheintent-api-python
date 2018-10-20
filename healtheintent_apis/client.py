@@ -6,13 +6,22 @@ ALIAS_TYPE_USER = 'USER'
 
 class HealthEIntentAPIClient:
 
+    api_base_name = None
+    api_version = 1
+
     base_headers = {
         'Accept': 'application/json',
         'Content-type': 'application/json',
     }
 
-    api_base_name = None
-    api_version = 1
+    http_error_class_map = {
+        400: errors.BadRequestError,
+        401: errors.UnauthorizedError,
+        403: errors.NotPermittedError,
+        404: errors.ResourceNotFoundError,
+        409: errors.ResourceConflictError,
+    }
+    http_error_class_default = errors.HealthEIntentHttpError
 
     def __init__(self, api_domain='https://cernerdemo.api.us.healtheintent.com',
                  bearer_token=None):
@@ -29,33 +38,23 @@ class HealthEIntentAPIClient:
         headers['Authorization'] = "Bearer %s" % self._bearer_token
         return headers
 
-    @staticmethod
-    def _get_new_http_error_class(http_error):
-        resp = http_error.response
-        if resp.status_code in (401, 403):
-            return errors.HealthEIntentAccessNotPermittedError
-        if resp.status_code == 400:
-            return errors.HealthEIntentBadRequestError
-        if resp.status_code == 404:
-            return errors.HealthEIntentResourceNotFoundError
-        if resp.status_code == 409:
-            return errors.HealthEIntentResourceConflictError
-        return errors.HealthEIntentAPIError
+    @classmethod
+    def _get_specific_http_error_class(cls, http_error):
+        status_code = http_error.response.status_code
+        return cls.http_error_class_map.get(status_code, cls.http_error_class_default)
 
     @classmethod
-    def _reraise_http_error(cls, http_error, response):
-        new_class = cls._get_new_http_error_class(http_error)
-        new_exception = new_class(response.content)
-        new_exception.response = http_error.response
-        new_exception.__traceback__ = http_error.__traceback__
-        raise new_exception
-
-    def _raise_for_status(self, resp):
+    def _raise_for_status(cls, response):
         try:
-            resp.raise_for_status()
+            response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            self._reraise_http_error(e, resp)
-        return resp
+            # Raise a more specific (custom) HttpError
+            new_class = cls._get_specific_http_error_class(e)
+            new_exception = new_class(
+                '{}. Response body:\n{}'.format(e, e.response.content)
+            )
+            raise new_exception from e
+        return response
 
     def get_full_path(self, request_path):
         return '/'.join((self._base_api_url, request_path.lstrip('/')))
@@ -73,7 +72,7 @@ class HealthEIntentAPIClient:
     def delete(self, path, **data):
         request_path = self.get_full_path(path)
         resp = requests.delete(request_path, json=data, headers=self.get_headers())
-        return self._raise_for_status(resp)
+        return self._raise_for_status(resp).json()
 
     def get(self, path, url_encode=True, **params):
         if not url_encode:

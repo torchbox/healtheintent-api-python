@@ -1,26 +1,31 @@
 from requests import HTTPError
 
 
-class HealthEIntentAPIError(HTTPError):
+class HealthEIntentHttpError(HTTPError):
     """There was an error communicating with the Health E Intent API"""
     pass
 
 
-class HealthEIntentAccessNotPermittedError(HealthEIntentAPIError):
-    """The API returned a 401 (Unauthorized) or 403 (Forbidden) error response"""
+class BadRequestError(HealthEIntentHttpError):
+    """The API returned a 400 (Bad Request) error response"""
     pass
 
 
-class HealthEIntentBadRequestError(HealthEIntentAPIError):
-    """The API returned a 400 (Bad Request) response"""
+class UnauthorizedError(HealthEIntentHttpError):
+    """The API returned a 401 (Unauthorized) error response"""
     pass
 
 
-class HealthEIntentResourceNotFoundError(HealthEIntentAPIError):
-    """The API returned a 404 (Resource not found) response"""
+class NotPermittedError(HealthEIntentHttpError):
+    """The API returned a 403 (Forbidden) error response"""
     pass
 
 
-class HealthEIntentResourceConflictError(HealthEIntentAPIError):
-    """The API returned a 409 (Conflict) response"""
+class ResourceNotFoundError(HealthEIntentHttpError):
+    """The API returned a 404 (Resource not found) error response"""
+    pass
+
+
+class ResourceConflictError(HealthEIntentHttpError):
+    """The API returned a 409 (Conflict) error response"""
     pass

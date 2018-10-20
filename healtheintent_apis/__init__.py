@@ -4,7 +4,7 @@ from .__version__ import ( # noqa
     __copyright__, __license__
 )
 from .errors import ( # noqa
-    HealthEIntentAPIError, HealthEIntentAccessNotPermittedError, HealthEIntentBadRequestError,
-    HealthEIntentResourceNotFoundError, HealthEIntentResourceConflictError
+    HealthEIntentHttpError, BadRequestError, UnauthorizedError,
+    NotPermittedError, ResourceNotFoundError, ResourceConflictError,
 )
 from .client import PersonnelAPIClient # noqa
