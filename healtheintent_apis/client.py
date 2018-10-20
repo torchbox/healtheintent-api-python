@@ -53,6 +53,7 @@ class HealthEIntentAPIClient:
             new_exception = new_class(
                 '{}. Response body:\n{}'.format(e, e.response.content)
             )
+            new_exception.response = e.response
             raise new_exception from e
         return response
 
