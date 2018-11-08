@@ -1,3 +1,4 @@
+import json
 import requests
 from . import errors
 
@@ -50,10 +51,12 @@ class HealthEIntentAPIClient:
         except requests.exceptions.HTTPError as e:
             # Raise a more specific (custom) HttpError
             new_class = cls._get_specific_http_error_class(e)
-            new_exception = new_class(
-                '{}. Response body:\n{}'.format(e, e.response.content)
-            )
-            new_exception.response = e.response
+            try:
+                response_body = json.dumps(response.json(), indent=4)
+            except ValueError:
+                response_body = response.content
+            new_exception = new_class('{}. Response body:\n{}'.format(e, response_body))
+            new_exception.response = response
             raise new_exception from e
         return response
 
