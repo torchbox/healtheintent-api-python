@@ -70,7 +70,9 @@ class HealthEIntentAPIClient:
     def put(self, path, **data):
         request_path = self.get_full_path(path)
         resp = requests.put(request_path, json=data, headers=self.get_headers())
-        return self._raise_for_status(resp).json()
+        resp = self._raise_for_status(resp)
+        if resp is not None:
+            return resp.json()
 
     def delete(self, path, **data):
         request_path = self.get_full_path(path)
