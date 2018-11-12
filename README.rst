@@ -16,7 +16,7 @@ Quick start guide
 
     .. code-block:: console
 
-        pip install healtheintent-apis-python
+        pip install healtheintent-api-python
 
 2.  Create a client instance, providing a valid ``api_domain`` and ``bearer_token``. e.g.:
 
