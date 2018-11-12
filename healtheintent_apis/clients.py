@@ -75,7 +75,9 @@ class HealthEIntentAPIClient:
     def delete(self, path, **data):
         request_path = self.get_full_path(path)
         resp = requests.delete(request_path, json=data, headers=self.get_headers())
-        return self._raise_for_status(resp)
+        resp = self._raise_for_status(resp)
+        if resp is not None:
+            return resp.json()
 
     def get(self, path, url_encode=True, prepend_path=True, **params):
         if not url_encode:
