@@ -111,8 +111,11 @@ class PersonnelAPIClient(HealthEIntentAPIClient):
     # Personnel
     # -------------------------------------------------------------------------
 
-    def get_all_personnel(self, **params):
-        return self._get_all_entities(path='personnel', **params)
+    def get_personnel(self, auto_paginate=False, **params):
+        path = 'personnel'
+        if auto_paginate:
+            return self._get_all_entities(path=path, **params)
+        return self.get(path=path, **params)
 
     def get_person(self, person_id, suppress_errors=False):
         path = 'personnel/{}/'.format(person_id)
@@ -150,8 +153,11 @@ class PersonnelAPIClient(HealthEIntentAPIClient):
     # Personnel Groups
     # -------------------------------------------------------------------------
 
-    def get_all_groups(self, **params):
-        return self._get_all_entities(path='personnel-groups', **params)
+    def get_groups(self, auto_paginate=False, **params):
+        path = 'personnel-groups'
+        if auto_paginate:
+            return self._get_all_entities(path=path, **params)
+        return self.get(path=path, **params)
 
     def get_group(self, group_id, suppress_errors=False):
         path = 'personnel-groups/{}/'.format(group_id)
