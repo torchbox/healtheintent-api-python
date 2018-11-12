@@ -6,7 +6,7 @@ A collection of simple Python API wrappers to aid interaction with Cerner's vari
 
 Based on the Python requests library (http://docs.python-requests.org).
 
-Currently, only the `Personnel` API wrapper is implemented (https://docs.healtheintent.com/api/v1/personnel/)
+Currently, only the ``Personnel`` API wrapper is implemented (https://docs.healtheintent.com/api/v1/personnel/)
 
 
 Quick start guide
@@ -16,7 +16,7 @@ Quick start guide
 
     .. code-block:: console
 
-        pip install healtheintent-api-python
+        pip install git+ssh://git@bitbucket.org/rkhleics/healtheintent-api-python.git@v1
 
 2.  Create a client instance, providing a valid ``api_domain`` and ``bearer_token``. e.g.:
 
