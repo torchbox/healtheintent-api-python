@@ -1,4 +1,4 @@
-__title__ = 'healtheintent-apis-python'
+__title__ = 'healtheintent-api-python'
 __description__ = "A simple API wrapper to help us perform commonly required actions in Cerner's various HealthEIntent REST APIs."
 __url__ = 'https://bitbucket.org/rkhleics/healtheintent-api-python/'
 __version__ = '0.1.1a'

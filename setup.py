@@ -4,7 +4,7 @@ from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-packages = ['healtheintent_apis']
+packages = ['healtheintent_api']
 
 # Essential dependencies
 requires = [
@@ -38,7 +38,7 @@ packaging_extras = testing_extras + [
 ]
 
 about = {}
-with open(os.path.join(here, 'healtheintent_apis', '__version__.py'), 'r', 'utf-8') as f:
+with open(os.path.join(here, 'healtheintent_api', '__version__.py'), 'r', 'utf-8') as f:
     exec(f.read(), about)
 
 with open('README.rst', 'r', 'utf-8') as f:
@@ -55,7 +55,7 @@ setup(
     author_email=about['__author_email__'],
     url=about['__url__'],
     packages=packages,
-    package_dir={'healtheintent_apis': 'healtheintent_apis'},
+    package_dir={'healtheintent_api': 'healtheintent_api'},
     include_package_data=True,
     install_requires=requires,
     license=about['__license__'],

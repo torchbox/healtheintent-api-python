@@ -6,7 +6,7 @@ import warnings
 
 from django.core.management import execute_from_command_line
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'healtheintent_apis.tests.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'healtheintent_api.tests.settings'
 
 
 def make_parser():
@@ -26,7 +26,7 @@ def parse_args(args=None):
 def runtests():
     parsed_args, unparsed_args = parse_args()
 
-    only_this_app = r'^healtheintent_apis(\.|$)'
+    only_this_app = r'^healtheintent_api(\.|$)'
     if parsed_args.deprecation == 'all':
         # Show all deprecation warnings from all packages
         warnings.simplefilter('default', category=DeprecationWarning)
