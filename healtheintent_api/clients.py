@@ -157,6 +157,10 @@ class PersonnelAPIClient(HealthEIntentAPIClient):
         path = 'personnel/{}/'.format(person_id)
         return self.delete(path)
 
+    def update_person(self, person_id, details):
+        path = 'personnel/{}/'.format(person_id)
+        return self.put(path, **details)
+
     # -------------------------------------------------------------------------
     # Personnel Groups
     # -------------------------------------------------------------------------
@@ -201,3 +205,7 @@ class PersonnelAPIClient(HealthEIntentAPIClient):
     def delete_group(self, group_id):
         path = 'personnel-groups/{}/'.format(group_id)
         return self.delete(path)
+
+    def update_group(self, group_id, details):
+        path = 'personnel-groups/{}/'.format(group_id)
+        return self.put(path, **details)
