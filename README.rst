@@ -22,7 +22,7 @@ Quick start guide
 
     .. code-block:: console
 
-        >>> from healtheintent_api.clients import PersonnelAPIClient
+        >>> from healtheintent_api import PersonnelAPIClient
         >>> client = PersonnelAPIClient(
                 api_domain="https://cernerdemo.api.us.healtheintent.com/',
                 bearer_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9."
