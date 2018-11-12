@@ -77,11 +77,12 @@ class HealthEIntentAPIClient:
         resp = requests.delete(request_path, json=data, headers=self.get_headers())
         return self._raise_for_status(resp).json()
 
-    def get(self, path, url_encode=True, **params):
+    def get(self, path, url_encode=True, prepend_path=True, **params):
         if not url_encode:
             params = "&".join("%s=%s" % (k, v) for k, v in params.items())
-        request_path = self.get_full_path(path)
-        resp = requests.get(request_path, params=params, headers=self.get_headers())
+        if prepend_path:
+            path = self.get_full_path(path)
+        resp = requests.get(path, params=params, headers=self.get_headers())
         return self._raise_for_status(resp).json()
 
     def _get_all_entities(self, path, result_list_element_name='items',
@@ -97,7 +98,7 @@ class HealthEIntentAPIClient:
         for item in response.get(result_list_element_name, ()):
             yield item
         while response['nextLink']:
-            response = self.get(response['nextLink'])
+            response = self.get(response['nextLink'], prepend_path=False)
             for item in response.get(result_list_element_name, ()):
                 yield item
 
