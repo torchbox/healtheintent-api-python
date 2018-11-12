@@ -167,6 +167,13 @@ class PersonnelAPIClient(HealthEIntentAPIClient):
         path = 'personnel-groups/{}/members'.format(group_id)
         return self.get_all_entities(path=path, **params)
 
+    def create_group(self, name, mnemonic, **data):
+        data.update({
+            'name': name,
+            'mnemonic': mnemonic,
+        })
+        return self.post('personnel-groups', **data)
+
     def add_person_to_group(self, person_id, group_id):
         path = 'personnel-groups/{group_id}/members/{person_id}'.format(
             group_id=group_id,

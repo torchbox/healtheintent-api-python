@@ -7,4 +7,4 @@ from .errors import ( # noqa
     HealthEIntentHttpError, BadRequestError, UnauthorizedError,
     NotPermittedError, ResourceNotFoundError, ResourceConflictError,
 )
-from .client import PersonnelAPIClient # noqa
+from .clients import PersonnelAPIClient # noqa
