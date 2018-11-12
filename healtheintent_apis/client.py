@@ -24,8 +24,7 @@ class HealthEIntentAPIClient:
     }
     http_error_class_default = errors.HealthEIntentHttpError
 
-    def __init__(self, api_domain='https://cernerdemo.api.us.healtheintent.com',
-                 bearer_token=None):
+    def __init__(self, api_domain, bearer_token):
         self._api_domain = api_domain.rstrip('/')
         self._bearer_token = bearer_token
         self._base_api_url = '/'.join((
