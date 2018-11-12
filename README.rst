@@ -28,7 +28,7 @@ Quick start guide
                 bearer_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9."
             )
 
-3.  Use the various methods client methods to interact with Personnel data. e.g.:
+3.  Use the various client methods to interact with Personnel data. e.g.:
 
     .. code-block:: console
 
@@ -219,7 +219,7 @@ Quick start guide
               "updatedAt": "2018-01-10T15:48:32Z"
             }
 
-4.  Use the various methods client methods to interact with Personnel Group data. e.g.:
+4.  Use the various client methods to interact with Personnel Group data. e.g.:
 
     .. code-block:: console
 
@@ -276,7 +276,7 @@ Quick start guide
           "updatedAt": "2018-05-12T15:48:32Z"
         }
 
-5.  For listing methods (``get_personnel()`` and ``get_groups()``), you can use the ``auto_paginate`` option to automatically fetch and return all results. When used, these methods will return a generator instead of the JSON response from the server. e.g.
+5.  For listing methods (``get_personnel()``, ``get_groups()`` and ``get_group_members()``), you can use the ``auto_paginate`` option to automatically fetch and return all results. When used, these methods will return a generator instead of the JSON response from the server. e.g.
 
     .. code-block:: console
 
