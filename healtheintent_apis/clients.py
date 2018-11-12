@@ -149,6 +149,10 @@ class PersonnelAPIClient(HealthEIntentAPIClient):
         data['aliases'] = [alias]
         return self.create_person(first_name, last_name, **data)
 
+    def delete_person(self, person_id):
+        path = 'personnel/{}/'.format(person_id)
+        return self.delete(path)
+
     # -------------------------------------------------------------------------
     # Personnel Groups
     # -------------------------------------------------------------------------
@@ -186,4 +190,8 @@ class PersonnelAPIClient(HealthEIntentAPIClient):
             group_id=group_id,
             person_id=person_id,
         )
+        return self.delete(path)
+
+    def delete_group(self, group_id):
+        path = 'personnel-groups/{}/'.format(group_id)
         return self.delete(path)
