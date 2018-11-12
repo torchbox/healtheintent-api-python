@@ -171,9 +171,11 @@ class PersonnelAPIClient(HealthEIntentAPIClient):
         path = 'personnel-groups/{}/'.format(group_id)
         return self.get(path)
 
-    def get_group_members(self, group_id, **params):
+    def get_group_members(self, group_id, auto_paginate=False, **params):
         path = 'personnel-groups/{}/members'.format(group_id)
-        return self.get_all_entities(path=path, **params)
+        if auto_paginate:
+            return self._get_all_entities(path=path, **params)
+        return self.get(path=path, **params)
 
     def create_group(self, name, mnemonic, **data):
         data.update({
