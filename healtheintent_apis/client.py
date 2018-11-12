@@ -97,7 +97,7 @@ class HealthEIntentAPIClient:
         response = self.get(path, **params)
         for item in response.get(result_list_element_name, ()):
             yield item
-        while response['nextLink']:
+        while 'nextLink' in response and response['nextLink']:
             response = self.get(response['nextLink'], prepend_path=False)
             for item in response.get(result_list_element_name, ()):
                 yield item
