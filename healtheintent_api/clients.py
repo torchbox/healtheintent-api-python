@@ -1,8 +1,7 @@
 import json
 import requests
+from . import constants
 from . import errors
-
-ALIAS_TYPE_USER = 'USER'
 
 
 class HealthEIntentAPIClient:
@@ -125,11 +124,11 @@ class PersonnelAPIClient(HealthEIntentAPIClient):
         path = 'personnel/{}/'.format(person_id)
         return self.get(path)
 
-    def get_person_from_alias(self, alias_value, alias_system=None, alias_type=ALIAS_TYPE_USER):
+    def get_person_from_alias(self, alias_value, alias_system=None, alias_type=None):
         params = {
             'aliasValue': alias_value,
             'aliasSystem': alias_system,
-            'aliasType': alias_type
+            'aliasType': alias_type or constants.ALIAS_TYPE_USER
         }
         for item in self.get('personnel', **params)['items']:
             return item
@@ -143,12 +142,12 @@ class PersonnelAPIClient(HealthEIntentAPIClient):
         }
         return self.post('personnel', **data)
 
-    def create_person_with_alias(self, first_name, last_name, alias_value, alias_system,
-                                 alias_type=ALIAS_TYPE_USER, **data):
+    def create_person_with_alias(self, first_name, last_name, alias_value,
+                                 alias_system, alias_type=None, **data):
         alias = {
-            'type': alias_type,
-            'system': alias_system,
             'value': alias_value,
+            'system': alias_system,
+            'type': alias_type or constants.ALIAS_TYPE_USER,
         }
         data['aliases'] = [alias]
         return self.create_person(first_name, last_name, **data)
