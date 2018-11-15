@@ -61,25 +61,6 @@ class HealthEIntentAPIClient:
     def get_full_path(self, request_path):
         return '/'.join((self._base_api_url, request_path.lstrip('/')))
 
-    def post(self, path, **data):
-        request_path = self.get_full_path(path)
-        resp = requests.post(request_path, json=data, headers=self.get_headers())
-        return self._raise_for_status(resp).json()
-
-    def put(self, path, **data):
-        request_path = self.get_full_path(path)
-        resp = requests.put(request_path, json=data, headers=self.get_headers())
-        resp = self._raise_for_status(resp)
-        if resp is not None:
-            return resp.json()
-
-    def delete(self, path, **data):
-        request_path = self.get_full_path(path)
-        resp = requests.delete(request_path, json=data, headers=self.get_headers())
-        resp = self._raise_for_status(resp)
-        if resp is not None:
-            return resp.json()
-
     def get(self, path, url_encode=True, prepend_path=True, **params):
         if not url_encode:
             params = "&".join("%s=%s" % (k, v) for k, v in params.items())
@@ -87,6 +68,27 @@ class HealthEIntentAPIClient:
             path = self.get_full_path(path)
         resp = requests.get(path, params=params, headers=self.get_headers())
         return self._raise_for_status(resp).json()
+
+    def post(self, path, **data):
+        request_path = self.get_full_path(path)
+        resp = requests.post(request_path, json=data, headers=self.get_headers())
+        resp = self._raise_for_status(resp)
+        if resp.content:
+            return resp.json()
+
+    def put(self, path, **data):
+        request_path = self.get_full_path(path)
+        resp = requests.put(request_path, json=data, headers=self.get_headers())
+        resp = self._raise_for_status(resp)
+        if resp.content:
+            return resp.json()
+
+    def delete(self, path, **data):
+        request_path = self.get_full_path(path)
+        resp = requests.delete(request_path, json=data, headers=self.get_headers())
+        resp = self._raise_for_status(resp)
+        if resp.content:
+            return resp.json()
 
     def _get_all_entities(self, path, result_list_element_name='items',
                           items_per_page=100, **params):
